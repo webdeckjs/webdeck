@@ -1,0 +1,172 @@
+webdeck todolist:
+
+/home/web_user/retroarch/userdata/content/downloads
+
+- ui
+    - stream deck @done
+    - controll panel @done
+    - preview mode
+- profiles
+    - add profiles @done
+    - import profiles @done
+    - remove profiles
+    - update profiles @done
+    - url based profiles
+- plugins
+    - create plugin  @done
+    - create template  @done
+    - buind multipe keys to one  @done
+    - remove plugins and there bindings @done
+    - remove plugin left over scripts
+    - playground
+- virtual devices
+    - custom layouts @done
+    - virtual device executes
+- create as extension
+- save profile 
+    - import export
+        - to cloud
+        - to local file
+- links to configs
+    - webdeck.io/deck/{id}/{version}
+- sandbox builder (no packages required)
+- themes
+- driver support
+  - add driver
+  - create driver plugin
+  - create current drivers as plugins
+  - 
+
+---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// const { streamDeck, tryGetStreamDeck, pressedMap, onMouseDown, onMouseUp } =
+//   useStreamDeck();
+
+// const {
+//   profile,
+//   profiles,
+//   updateProfile,
+//   profileName,
+//   setProfileName,
+//   promptAddProfile,
+//   promptExportProfile,
+// } = useProfiles();
+
+// const { plugins, pluginsById, promptAddPlugin } = usePlugins();
+// const [selected, setSelected] = useState<number | undefined>(0);
+
+// const App2 = () => {
+//   const [myStreamDecks, setmyStreamDecks] = useState<StreamDeckWeb[] | null>();
+//   const [toggle, setToggle] = useState(false);
+
+//   const context = new AudioContext();
+//   const notes = [ 131, 139, 147, 156, 165, 175, 185, 196, 208, 220, 233, 247, 262, 277, 294, 311, 330, 349, 370, 392, 415, 440, 466]
+
+//   myStreamDecks?.[0].on('down', (keyIndex) => {
+//     //myStreamDecks?.[0].fillKeyColor(keyIndex, 255, 0, 0)
+//     fadeIn((num) => {
+//       myStreamDecks?.[0].fillKeyColor(keyIndex, num, 0, 0)
+//     })
+//     console.log('key %d down', keyIndex);
+//     const o = context.createOscillator();
+//     const g = context.createGain();
+//     const waveForm = Math.random() > 0.5 ? "sine" : "triangle";
+//     o.type = "sine";
+//     o.frequency.value = notes[keyIndex + 5];
+//     o.connect(g);
+//     g.connect(context.destination);
+//     o.start(0)
+//     g.gain.exponentialRampToValueAtTime(0.00001, context.currentTime + 2)
+//     o.stop(context.currentTime + 2);
+//   });
+
+//   myStreamDecks?.[0].on('up', (keyIndex) => {
+//     setTimeout(() => {
+//       fadeOut((num) => {
+//         myStreamDecks?.[0].fillKeyColor(keyIndex, num, 0, 0);
+//       })
+//     }, 637.5);
+
+//     // fade((op) => {
+//     //   myStreamDecks?.[0].fillKeyColor(keyIndex, op, 0, 0)
+//     // })
+
+//     console.log('key %d up', keyIndex);
+//   })
+//   myStreamDecks?.[0].on('error', (error) => {
+//     console.error(error)
+//   })
+
+//   const execute = async () => {
+//     const test = await requestStreamDecks();
+//     setmyStreamDecks(test);
+//   }
+
+//   const canvas = document.getElementById("myCanvas") as HTMLCanvasElement;
+
+//   useEffect(() => {
+//     const ctx = canvas?.getContext("2d");
+//     if(ctx) {
+//       ctx.fillStyle = "#FF0000";
+//       ctx.fillRect(0,0,150,75)
+
+//       const ball = {
+//         x: 25,
+//         y: 25
+//       };
+//       const velo = 3;
+//       const corner = 50;
+//       const rad = 20;
+
+//       const DrawMe = async () => {
+//         ctx.clearRect(0, 0, 400, 300);
+//         let moveX = Math.cos(Math.PI / 180 * corner) * velo;
+//         let moveY = Math.sin(Math.PI / 180 * corner) * velo;
+
+//         if (ball.x > canvas.width - rad || ball.x < rad) moveX = -moveX;
+//         if (ball.y > canvas.height - rad || ball.y < rad) moveY = -moveY;
+
+//         ball.x += moveX;
+//         ball.y += moveY;
+
+//         ctx.beginPath();
+//         ctx.fillStyle = 'green';
+//         ctx.arc(ball.x, ball.y, rad, 0, Math.PI * 2, false);
+//         ctx.fill();
+//         ctx.closePath();
+//         // await myStreamDecks?.[0].fillPanelCanvas(canvas)
+//       }
+//       setInterval(DrawMe, 10);
+//     }
+
+//   }, [toggle])
+
+//   return (
+//     <div id="App">
+//       <canvas id="myCanvas" width="360" height="216"></canvas>
+//       <header className="App-header">
+//         <button onClick={() => setToggle(true)}>ased</button>
+//         heelo
+//         <button onClick={() => execute()}>Connect</button>
+//       </header>
+//     </div>
+//   );
+// }
