@@ -55,7 +55,7 @@ const App = () => {
             </Controller>
           </>
         ) : (
-          <div>
+          <div style={{ color: "white" }}>
             <div>
               <h1>WEB DECK</h1>
               <p>Connect you usb device or create a virtual device.</p>
