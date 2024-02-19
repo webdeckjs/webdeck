@@ -62,7 +62,7 @@ const App = () => {
               <br />
             </div>
             <button onClick={deck.tryGetStreamDeck}>Connect</button>
-            <small>-or-</small>
+            <small> -or- </small>
             <button onClick={deck.tryCreateVirtualDeck}>
               Create Virtual Device
             </button>
