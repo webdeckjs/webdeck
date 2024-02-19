@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <link rel="icon" href="favicon.ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#282828" />
+    <meta name="description" content="Configure you deck using only the web browser, install plugins, and explore custom configurations and presets and profiles." />
+    <link rel="apple-touch-icon" href="logo192.png" />
+    <style>
+      body, html {
+        margin: 0;
+        padding: 0;
+        background: #282828;
+        font-family: Arial, sans-serif;
+      }
+
+      a {
+        color: white;
+        font-weight: 400;
+        border: 1px solid gray;
+        text-decoration: none;
+        padding: 3px;
+        border-radius: 5px;
+        background: black;
+        transform: scale(1);
+        transition: all 300ms;
+      }
+
+      a:hover {
+        transform: scale(0.5);
+        color: black;
+        background: white;
+      }
+
+      /* input[type=submit], select, input[type=button], button {
+        box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        -webkit-box-sizing: border-box;
+      } */
+
+      .wrapper {
+        transition: all 300ms;
+        background: radial-gradient(circle, #282828 0%, #282828 100%);
+      }
+
+      .s {
+        vertical-align:top;
+        height:26px;
+        overflow:hidden;
+        text-align:center;
+        line-height:16px;
+        margin-left: 2px;
+        padding: 0 8px;
+        background: black;
+        color: white;
+        transition: all 300ms;
+      }
+      .s:hover {
+        background: gray;
+        cursor: "finger",
+      }
+
+      select:invalid { color: gray; }
+
+      select, input, pre {
+        background: black;
+        color: white;
+        border:1px solid #000;
+        border-right:none;
+        margin:0px;
+        height:16px;
+        overflow:hidden;
+        line-height:16px;
+        min-width: 100px;
+      }
+
+      select {
+        height: 26px;
+        background: black;
+        color: white;
+      }
+
+      input {
+        height: 23px;
+        width: 100px;
+      }
+
+      select, input, .s, pre {
+        border:1px solid #888;
+        border-radius: 5px;
+      }
+
+      select:hover, input:hover, .s:hover {
+        background: #282828;
+        cursor: pointer;
+      }
+
+      .s:disabled {
+        opacity: 0.5;
+        pointer-events: none;
+      }
+
+      pre {
+        overflow: auto;
+        height: auto;
+        padding: 15px;
+      }
+      
+      .setting {
+        display: flex;
+        justify-content: space-between;
+      }
+
+      select {
+        min-width: 105px;
+      }
+
+    </style>
+  <script src="main.js" defer></script></head>
+  <body>
+    <div id="root"></div>
+  
+</body></html>
