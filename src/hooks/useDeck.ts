@@ -26,7 +26,7 @@ export const useDeck = (
     if (streamDeck) {
       streamDeck!.fillKeyColor(keyIndex, 255, 0, 0);
     } else {
-      console.log("pressed key", keyIndex);
+      // console.log("pressed key", keyIndex);
     }
   };
 
@@ -35,7 +35,7 @@ export const useDeck = (
       if (streamDeck) {
         streamDeck!.fillKeyColor(keyIndex, 0, 0, 0);
       } else {
-        console.log("pressed key", keyIndex);
+        // console.log("pressed key", keyIndex);
       }
     } else {
       const key = profiles.profile.keys[keyIndex];

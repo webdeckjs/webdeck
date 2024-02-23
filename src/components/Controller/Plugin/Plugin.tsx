@@ -16,13 +16,6 @@ export const Plugin: FC = () => {
     plugins.pluginsById[keyConfig?.plugin]?.name
   );
 
-  console.log(
-    "module",
-    module,
-    plugins.pluginsById[keyConfig?.plugin]?.name,
-    plugins.getModules()
-  );
-
   useEffect(() => {
     if (module) {
       const Component = lazy(() => {

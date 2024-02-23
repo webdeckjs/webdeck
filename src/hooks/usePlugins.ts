@@ -74,7 +74,7 @@ export const usePlugins = () => {
           if (data && data.has_pages) {
             homepage = data.homepage;
             [creator, name] = data.full_name.split("/");
-            console.log({ homepage, name });
+            // console.log({ homepage, name });
             addPlugin({ name, creator, versions: ["1.0.0"], url: homepage });
           } else {
             throw new Error("");
@@ -91,7 +91,7 @@ export const usePlugins = () => {
             });
           } else throw new Error("");
         } else {
-          console.log("input", input);
+          // console.log("input", input);
           // the provided some other link
           throw new Error("");
         }
@@ -213,8 +213,8 @@ export const usePlugins = () => {
       });
 
       Promise.all(modules).then((resp) => {
-        console.log("!!! Modules Loaded", resp);
-        console.log("MODULE_CATCHE", getModules());
+        // console.log("!!! Modules Loaded", resp);
+        // console.log("MODULE_CATCHE", getModules());
         setInitalised(true);
       });
     });

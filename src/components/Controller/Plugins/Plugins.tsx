@@ -4,7 +4,6 @@ import { useAppContext } from "../../../contexts/AppContext";
 export const Plugins: FC = () => {
   const { profiles, deck, plugins } = useAppContext();
   const selectedPlugin = profiles.profile.keys[deck.selectedKey!]?.plugin;
-  console.log({ selectedPlugin });
   return (
     <div>
       <select
