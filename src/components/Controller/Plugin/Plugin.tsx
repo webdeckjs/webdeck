@@ -31,7 +31,8 @@ export const Plugin: FC = () => {
     <div
       style={{
         width: "100%",
-        height: "400px",
+        maxHeight: "400px",
+        minHeight: "100px",
         outline: "none",
         margin: "8px 0",
         border: "2px solid black",
