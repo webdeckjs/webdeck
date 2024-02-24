@@ -16,6 +16,7 @@ export const DeckFooterText = () => {
       You are currently in {deck.editMode ? "Edit Mode" : "Preview Mode"}.
       Switch to{" "}
       <a
+        className="a"
         href="#"
         onClick={(e) => {
           e.preventDefault();
