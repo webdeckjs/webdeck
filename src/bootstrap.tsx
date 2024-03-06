@@ -2,6 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
+import packageJSON from "../package.json";
 
 import { AppContext } from "./contexts/AppContext";
 import { usePlugins } from "./hooks/usePlugins";
@@ -23,6 +24,7 @@ export const Container = () => {
     <AppContext.Provider value={{ deck, profiles, plugins }}>
       {window.location.search.includes("debug") && (
         <>
+          <div>version: {packageJSON.version}</div>
           <div>{!plugins.initalised && <>initialising plugins...</>}</div>
           <img
             id="prev"
