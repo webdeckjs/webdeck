@@ -21,12 +21,18 @@ export const Debugger: FC = () => {
           {open ? " close" : "open"}
         </button>
       </div>
-      <div style={{ display: open ? "block" : "none" }}>
+      <div style={{ display: open ? "block" : "none", textAlign: "left" }}>
+        <span>Profiles:</span>
         <pre style={{ width: 350, textAlign: "left", background: "black" }}>
           {JSON.stringify(profiles.profiles, null, 4)}
         </pre>
+        <span>Plugins:</span>
         <pre style={{ width: 350, textAlign: "left", background: "black" }}>
           {JSON.stringify(plugins.plugins, null, 4)}
+        </pre>
+        <span>Manifest:</span>
+        <pre style={{ width: 350, textAlign: "left", background: "black" }}>
+          {JSON.stringify(plugins.manifest, null, 4)}
         </pre>
       </div>
     </div>

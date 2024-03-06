@@ -10,6 +10,7 @@ import {
 } from "./Deck.styles";
 import { useAppContext } from "../../contexts/AppContext";
 import { DeckFooterText } from "./DeckFooterText/DeckFooterText";
+import { DeckButtonView } from "./DeckButtonView/DeckButtonView";
 
 export const Deck: FC = () => {
   const { deck } = useAppContext();
@@ -27,7 +28,6 @@ export const Deck: FC = () => {
           {Array.from({ length: deck.current?.NUM_KEYS || 0 }).map(
             (_, keyIndex) => (
               <DeckButton
-                // $editMode={deck.editMode}
                 key={keyIndex}
                 onMouseDown={() => deck.onMouseDown(keyIndex)}
                 onMouseUp={() => deck.onMouseUp(keyIndex)}
@@ -43,7 +43,7 @@ export const Deck: FC = () => {
                 })}
               >
                 <DeckButtonContent>
-                  <p>{keyIndex}</p>
+                  <DeckButtonView keyIndex={keyIndex} />
                 </DeckButtonContent>
               </DeckButton>
             )

@@ -15,7 +15,7 @@ import classNames from "classnames";
 window.Buffer = Buffer;
 
 const App = () => {
-  const { deck } = useAppContext();
+  const { deck, profiles } = useAppContext();
 
   return (
     <div
@@ -23,6 +23,13 @@ const App = () => {
         wrapper: true,
         hasDeck: !!deck.current,
       })}
+      style={{
+        position: "absolute",
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+      }}
     >
       <Wrapper>
         {deck.current ? (
@@ -36,11 +43,36 @@ const App = () => {
               {deck.selectedKey !== undefined && (
                 <>
                   <Settings>
-                    <SubSubTitle>currently selected key</SubSubTitle>
-                    <span>{deck.selectedKey}</span>
+                    <SubSubTitle>Currently selected key</SubSubTitle>
+                    <button className="s" disabled>
+                      {deck.selectedKey}
+                    </button>
+                  </Settings>
+                  {/* TODO: <Settings>
+                    <SubSubTitle>Icon</SubSubTitle>
+                    <select required name="" value="" onChange={() => {}}>
+                      <option value="" disabled hidden>
+                        inherit
+                      </option>
+                      <option value="1" disabled>
+                        coming soon
+                      </option>
+                    </select>
+                  </Settings> */}
+                  <Settings>
+                    <SubSubTitle>Subtitle</SubSubTitle>
+                    <input
+                      value={
+                        profiles.profile.keys[deck.selectedKey]?.title || ""
+                      }
+                      onChange={(e) =>
+                        profiles.setTitle(deck.selectedKey!, e.target.value)
+                      }
+                      placeholder="key subtitle"
+                    />
                   </Settings>
                   <Settings>
-                    <SubSubTitle>plugin</SubSubTitle>
+                    <SubSubTitle>Plugin</SubSubTitle>
                     <Plugins />
                   </Settings>
                   <Settings>

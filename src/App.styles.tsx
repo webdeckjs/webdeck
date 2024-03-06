@@ -1,16 +1,12 @@
 import styled from "styled-components";
 
-export const Wrapper = styled("div")(({ $hasDeck }) => ({
+export const Wrapper = styled("div")(() => ({
   textAlign: "center",
   display: "flex",
   alignItems: "center",
   justifyContent: "center",
   height: "100vh",
   width: "100vw",
-  // transition: "all 500ms",
-  // background: $hasDeck
-  //   ? "radial-gradient(circle, rgba(164,164,164,1) 0%, rgba(0,0,0,1) 100%)"
-  //   : "radial-gradient(circle, rgba(5,5,5,1) 0%, rgba(0,0,0,1) 100%)",
 }));
 
 //@ts-expect-error styled ignore
@@ -23,9 +19,9 @@ export const Controller = styled("div")<{ $isOpen: boolean }>({
   background: "rgb(21 21 21)",
   borderRadius: "20px",
   color: "white",
-  // minHeight: "80vh",
   maxHeight: "80vh",
   overflow: "auto",
+  maxWidth: 350,
   boxShadow:
     "-6px -20px 20px rgba(0,0,0,0.2), -6px -10px 15px rgba(0,0,0,0.2), -20px 0px 20px rgba(0,0,0,0.2), 6px 20px 20px rgba(0,0,0,0.2)",
 });

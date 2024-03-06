@@ -2,16 +2,21 @@ import { useState } from "react";
 
 export type Config = Record<string | number | symbol, unknown>;
 
+export type Key = {
+  plugin: string;
+  config: Config;
+  icon: string;
+  title: string;
+  loading: boolean;
+};
+
 type Profiles = {
   [key: string]: Profile;
 };
 
 export type Profile = {
   keys: {
-    [key: string]: {
-      plugin: string;
-      config: Config;
-    };
+    [key: string]: Key;
   };
 };
 
@@ -28,10 +33,6 @@ const getProfiles = () => {
 const storeProfiles = (profiles: Profiles) => {
   localStorage.setItem(STORAGE_KEY, JSON.stringify(profiles));
 };
-
-// const getProfiles = () => {
-//   return { default: { keys: {} } };
-// };
 
 const getProfileName = () => {
   return "default";
@@ -63,6 +64,9 @@ export const useProfiles = () => {
         [keyIndex]: {
           plugin: name,
           config: {}, //reset config for next
+          icon: "",
+          title: "",
+          loading: false,
         },
       },
     });
@@ -79,6 +83,9 @@ export const useProfiles = () => {
             [key]: {
               plugin: match ? "" : config.plugin,
               config: match ? {} : config.config,
+              icon: match ? "" : config.icon,
+              title: match ? "" : config.title,
+              loading: match ? false : config.loading,
             },
           };
         }, {}),
@@ -150,6 +157,48 @@ export const useProfiles = () => {
     updateProfile(next);
   };
 
+  const setIcon = (key: number, icon: string) => {
+    const next = {
+      ...profile,
+      keys: {
+        ...profile.keys,
+        [key]: {
+          ...profile.keys[key],
+          icon,
+        },
+      },
+    };
+    updateProfile(next);
+  };
+
+  const setTitle = (key: number, title: string) => {
+    const next = {
+      ...profile,
+      keys: {
+        ...profile.keys,
+        [key]: {
+          ...profile.keys[key],
+          title,
+        },
+      },
+    };
+    updateProfile(next);
+  };
+
+  const setLoading = (key: number, loading: boolean) => {
+    const next = {
+      ...profile,
+      keys: {
+        ...profile.keys,
+        [key]: {
+          ...profile.keys[key],
+          loading,
+        },
+      },
+    };
+    updateProfile(next);
+  };
+
   return {
     profiles,
     profile,
@@ -164,5 +213,8 @@ export const useProfiles = () => {
     promptRemoveProfile,
     promptExportProfile,
     setConfig,
+    setIcon,
+    setTitle,
+    setLoading,
   };
 };

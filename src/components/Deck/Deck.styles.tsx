@@ -60,7 +60,7 @@ export const DeckButton = styled("button")({
       border: "0px solid",
       "& > *": {
         transition: ".13s ease-in-out",
-        transform: "translate3d(0px, 0px, 0px)",
+        transform: "scale(0.9)",
       },
     },
   },
@@ -68,9 +68,10 @@ export const DeckButton = styled("button")({
     //backgroundColor: "rgb(255 0 0)",
   },
   "&.selected": {
-    outline: "2px dotted #ffffff9c",
-    outlineOffset: "5px",
+    outline: "2px dotted #ffffff",
+    outlineOffset: "8px",
   },
+  color: "white",
 });
 
 export const DisconnectButton = styled(Disconnect)({
@@ -97,12 +98,9 @@ export const DeckButtonContent = styled("div")({
   borderRadius: 10,
   transition: ".13s ease-in-out",
   zIndex: 1,
+  overflow: "hidden",
   "& > *": {
-    height: "70%",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
     transition: ".13s ease-in-out",
-    transform: "translate3d(0px, -4px, 0px)",
+    transform: "scale(1)",
   },
 });

@@ -11,6 +11,7 @@ import {
 } from "../utils/virtualDeck";
 import { usePlugins } from "./usePlugins";
 import { useProfiles } from "./useProfiles";
+import { drawKey } from "../utils/drawKey";
 
 export const useDeck = (
   profiles: ReturnType<typeof useProfiles>,
@@ -24,25 +25,25 @@ export const useDeck = (
 
   const onMouseDown = (keyIndex: number) => {
     if (streamDeck) {
-      streamDeck!.fillKeyColor(keyIndex, 255, 0, 0);
+      // streamDeck!.fillKeyColor(keyIndex, 255, 0, 0);
     } else {
-      // console.log("pressed key", keyIndex);
+      console.log("pressed key", keyIndex);
     }
   };
 
   const onMouseUp = (keyIndex: number) => {
     if (editMode) {
-      if (streamDeck) {
-        streamDeck!.fillKeyColor(keyIndex, 0, 0, 0);
-      } else {
-        // console.log("pressed key", keyIndex);
-      }
+      // TODO
     } else {
       const key = profiles.profile.keys[keyIndex];
       if (key?.plugin) {
         const module = plugins.getModule(key.plugin);
         try {
-          module?.onPress({ ...key, keyIndex });
+          module!.onPress!({
+            ...key,
+            keyIndex,
+            setIcon: (icon: string) => profiles.setIcon(keyIndex, icon),
+          });
         } catch (e) {
           console.warn(
             `Webdeck: Failed to execute ${key.plugin}. Have you added and exported onPress() functions in you plugin?`,
@@ -75,6 +76,7 @@ export const useDeck = (
       console.error("Couldn’t get a Stream Deck");
     } else {
       setStreamDeck(_streamDeck);
+      _streamDeck.clearPanel();
     }
   }, []);
 
@@ -125,7 +127,11 @@ export const useDeck = (
       if (key?.plugin) {
         const module = plugins.getModule(key.plugin);
         try {
-          module?.onPress({ ...key, keyIndex });
+          module!.onPress!({
+            ...key,
+            keyIndex,
+            setIcon: (icon: string) => profiles.setIcon(keyIndex, icon),
+          });
         } catch (e) {
           console.warn(
             `Webdeck: Failed to execute ${key.plugin}. Have you added and exported onPress() functions in you plugin?`,
@@ -135,6 +141,22 @@ export const useDeck = (
       }
     };
 
+    // draw keys to steamdeck
+    if (streamDeck) {
+      Object.keys(profiles.profile.keys).forEach((key) =>
+        drawKey(
+          streamDeck,
+          key,
+          profiles.profile.keys[key],
+          plugins.status[profiles.profile.keys[key].plugin],
+          selectedKey,
+          plugins.manifest[profiles.profile.keys[key].plugin]?.icons?.[
+            profiles.profile.keys[key]?.icon
+          ].icon
+        )
+      );
+    }
+
     if (streamDeck) {
       streamDeck.on("down", _onPressDown);
       streamDeck.on("up", _onPressUp);
@@ -143,7 +165,7 @@ export const useDeck = (
       streamDeck?.off("down", _onPressDown);
       streamDeck?.off("up", _onPressUp);
     };
-  }, [streamDeck, profiles.profile.keys]);
+  }, [streamDeck, profiles.profile.keys, selectedKey]);
 
   const current = streamDeck || virtualDeck;
 
@@ -169,22 +191,3 @@ export const useDeck = (
     setEditMode,
   };
 };
-
-// const addEvents = (_streamDeck: StreamDeckWeb) => {
-//   _streamDeck.on("down", (keyIndex) => {
-//     setPressedMap((old) => ({
-//       ...old,
-//       [keyIndex]: true,
-//     }));
-//   });
-//   _streamDeck.on("up", (keyIndex) => {
-//     setPressedMap((old) => ({
-//       ...old,
-//       [keyIndex]: false,
-//     }));
-//     console.log(onPressMap);
-//     onPressMap[keyIndex]?.();
-//   });
-// };
-
-// useEffect(() => {}, []);

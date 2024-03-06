@@ -1,6 +1,6 @@
 {
   "name": "webdeck",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "private": true,
   "dependencies": {
     "@babel/core": "7.23.7",
@@ -32,7 +32,7 @@
   },
   "scripts": {
     "start": "rspack serve",
-    "build": "rspack --mode production",
+    "build": "rspack --mode production --no-devtool",
     "start-rc": "react-scripts start",
     "build-rc": "react-scripts build",
     "test-rc": "react-scripts test",

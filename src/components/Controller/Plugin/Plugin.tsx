@@ -2,8 +2,11 @@ import { FC, lazy, useEffect, useState, Suspense } from "react";
 import { useAppContext } from "../../../contexts/AppContext";
 
 type FederatedComponent = FC<{
+  key: string;
   config: unknown;
   setConfig: (config: Record<string | number | symbol, unknown>) => void;
+  icon?: string;
+  setIcon?: (icon: string) => void;
 }>;
 
 export const Plugin: FC = () => {
@@ -12,9 +15,8 @@ export const Plugin: FC = () => {
 
   const key = deck.selectedKey!;
   const keyConfig = profiles.profile.keys[key];
-  const module = plugins.getModule(
-    plugins.pluginsById[keyConfig?.plugin]?.name
-  );
+  const module = plugins.getModule(keyConfig?.plugin);
+  const status = plugins.status[keyConfig?.plugin];
 
   useEffect(() => {
     if (module) {
@@ -43,13 +45,29 @@ export const Plugin: FC = () => {
       }}
     >
       <Suspense fallback="Loading System">
-        {Plugin && keyConfig?.config ? (
+        {Plugin && keyConfig?.config && module ? (
           <Plugin
+            key={keyConfig.plugin + key}
             config={keyConfig.config}
             setConfig={(config: Record<string | number | symbol, unknown>) => {
               profiles.setConfig(key, config);
             }}
           />
+        ) : status?.loaded === false ? (
+          <div
+            style={{
+              display: "flex",
+              textAlign: "center",
+              width: "100%",
+              justifyContent: "center",
+              alignItems: "center",
+              height: "100px",
+              color: "#cb0000",
+              background: "#f7a5a5",
+            }}
+          >
+            Failed to load {keyConfig.plugin} plugin!
+          </div>
         ) : (
           <div></div>
         )}
