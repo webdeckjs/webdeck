@@ -150,9 +150,9 @@ export const useDeck = (
           profiles.profile.keys[key],
           plugins.status[profiles.profile.keys[key].plugin],
           selectedKey,
-          plugins.manifest[profiles.profile.keys[key].plugin]?.icons?.[
-            profiles.profile.keys[key]?.icon
-          ].icon
+          plugins.manifest[
+            profiles.profile.keys[key].plugin?.replaceAll("-", "_")
+          ]?.icons?.[profiles.profile.keys[key]?.icon]?.icon
         )
       );
     }

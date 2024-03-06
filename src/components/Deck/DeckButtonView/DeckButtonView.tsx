@@ -10,7 +10,9 @@ export const DeckButtonView = ({ keyIndex }: { keyIndex: number }) => {
   const ref = useRef<SVGSVGElement>(null);
   const plugin = profile.keys[keyIndex]?.plugin;
   const icon =
-    plugins.manifest[plugin]?.icons?.[profile.keys[keyIndex]?.icon].icon;
+    plugins.manifest[plugin?.replaceAll("-", "_")]?.icons?.[
+      profile.keys[keyIndex]?.icon
+    ]?.icon;
   const title = profile.keys[keyIndex]?.title;
   const loading = profile.keys[keyIndex]?.loading;
   const status = plugins.status[plugin];
