@@ -16,7 +16,12 @@ export const fetchPlugin = async (input: string): Promise<Plugin | null> => {
         if (data && data.has_pages) {
           const homepage = data.homepage;
           const [creator, name] = data.full_name.split("/");
-          resolve({ name, creator, versions: ["1.0.0"], url: homepage });
+          resolve({
+            name: (name as string)?.replaceAll("-", "_"),
+            creator,
+            versions: ["1.0.0"],
+            url: homepage,
+          });
         } else {
           throw new Error("");
         }
@@ -25,7 +30,7 @@ export const fetchPlugin = async (input: string): Promise<Plugin | null> => {
         const { name, creator, v } = queryString.parse(query);
         if (name) {
           resolve({
-            name: name as string,
+            name: (name as string)?.replaceAll("-", "_"),
             creator: creator as string,
             versions: [v as string],
             url: _url.replace("remoteEntry.js", ""),
