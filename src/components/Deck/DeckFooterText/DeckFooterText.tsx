@@ -21,6 +21,9 @@ export const DeckFooterText = () => {
         onClick={(e) => {
           e.preventDefault();
           deck.setEditMode(!deck.editMode);
+          if (!deck.editMode && !deck.selectedKey) {
+            deck.setSelectedKey(0);
+          }
         }}
       >
         {deck.editMode ? "Preview Mode" : "Edit Mode"}

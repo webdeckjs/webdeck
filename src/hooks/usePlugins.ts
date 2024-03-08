@@ -71,9 +71,10 @@ export const usePlugins = () => {
     };
     // configure all plugins
     initalise(config, PLUGIN_SCOPE, MODULE_CATCHE).then((modules) => {
-      console.log("sucess", modules);
+      console.log("modules", modules);
       setStatus(modules);
       setInitalised(true);
+
       setManifest(
         Object.keys(modules).reduce(
           (prev, key) => ({

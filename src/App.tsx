@@ -93,7 +93,7 @@ const App = () => {
               <p>Connect you usb device or create a virtual device.</p>
               <br />
             </div>
-            <button onClick={deck.tryGetStreamDeck}>Connect</button>
+            <button onClick={deck.tryGetPhysicalDeck}>Connect</button>
             <small> -or- </small>
             <button onClick={deck.tryCreateVirtualDeck}>
               Create Virtual Device

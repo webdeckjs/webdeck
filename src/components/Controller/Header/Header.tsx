@@ -11,7 +11,12 @@ export const Header: FC = () => {
       <button
         title="close"
         className="s"
-        onClick={() => deck.setSelectedKey(undefined)}
+        onClick={() => {
+          deck.setSelectedKey(undefined);
+          if (deck.isVirtual) {
+            deck.setEditMode(false);
+          }
+        }}
       >
         ×
       </button>

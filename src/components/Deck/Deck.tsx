@@ -29,15 +29,23 @@ export const Deck: FC = () => {
             (_, keyIndex) => (
               <DeckButton
                 key={keyIndex}
-                onMouseDown={() => deck.onMouseDown(keyIndex)}
-                onMouseUp={() => deck.onMouseUp(keyIndex)}
+                onMouseDown={() => {
+                  if (deck.isVirtual && !deck.editMode) {
+                    deck.onMouseDown(keyIndex);
+                  }
+                }}
+                onMouseUp={() => {
+                  if (deck.isVirtual && !deck.editMode) {
+                    deck.onMouseUp(keyIndex);
+                  }
+                }}
                 onClick={() => {
                   if (deck.editMode) {
                     deck.setSelectedKey(keyIndex);
                   }
                 }}
                 className={classNames({
-                  active: deck.pressedMap[keyIndex],
+                  // active: deck.pressedMap[keyIndex],
                   selected: deck.editMode && deck.selectedKey === keyIndex,
                   editMode: deck.editMode,
                 })}
