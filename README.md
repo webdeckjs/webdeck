@@ -12,9 +12,9 @@ Visit http://webdeck.org to get started.
 
 Plugins are the heart and soul of Webdeck, anyone can create them and the resource bellow will guide you on you journey.
 
-- ⭐ [How to create a Plugin](https://github.com/webdeckjs/webdeck/wiki/How-to-create-plugins)
+- ⭐ [How to create a Plugin](https://github.com/webdeckjs/webdeck/wiki/How-to-create-a-new-Plugin)
 - 📋 [List of Plugins](https://github.com/search?q=topic:webdeck-plugin)
-- 📖 [Plugin API docs](https://github.com/webdeckjs/webdeck/wiki/How-to-create-plugins)
+- 📖 [Plugin API docs](https://github.com/webdeckjs/webdeck/wiki/Plugin-API)
 
 
 
