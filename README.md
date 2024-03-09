@@ -1,5 +1,7 @@
 # 🔳 Webdeck
 
+![webdeck screenshot](https://github.com/webdeckjs/webdeck/assets/1041335/09372312-6f88-4740-a2a6-43598bc53952)
+
 Configure your deck using only the web browser. Install plugins, explore custom configurations, presets and profiles.
 
 ## Getting started
