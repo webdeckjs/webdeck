@@ -16,8 +16,6 @@ export const DeckButtonView = ({ keyIndex }: { keyIndex: number }) => {
   const loading = profile.keys[keyIndex]?.loading;
   const status = plugins.status[plugin];
 
-  console.log({ status });
-
   // fix height of svgs
   useEffect(() => {
     if (ref.current && !ref.current.getAttribute("viewBox")) {

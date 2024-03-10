@@ -90,7 +90,7 @@ const App = () => {
           <div style={{ color: "white" }}>
             <div>
               <h1>WEB DECK</h1>
-              <p>Connect you usb device or create a virtual device.</p>
+              <p>Connect your usb device or create a virtual device.</p>
               <br />
             </div>
             <button onClick={deck.tryGetPhysicalDeck}>Connect</button>
