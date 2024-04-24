@@ -6,12 +6,12 @@ import {
 } from "../utils/virtualDeck";
 import { usePlugins } from "./usePlugins";
 import { useProfiles } from "./useProfiles";
-import { drawKey } from "../utils/drawKey";
 import {
   PhysicalDeck,
   getPhysicalDeck,
   requestPhysicalDeck,
 } from "../utils/physicalDeck";
+import { useDrawKey } from "./useDrawKey";
 
 export const useDeck = (
   profiles: ReturnType<typeof useProfiles>,
@@ -21,6 +21,7 @@ export const useDeck = (
   const [selectedKey, setSelectedKey] = useState<number | undefined>(0);
   const [virtualDeck, setVirtualDeck] = useState<VirtualDeck | undefined>();
   const [physicalDeck, setPhysicalDeck] = useState<PhysicalDeck | undefined>();
+  const { getContext } = useDrawKey();
   const current = physicalDeck || virtualDeck;
 
   const onMouseDown = (keyIndex: number) => {
@@ -56,7 +57,7 @@ export const useDeck = (
     if (deck) {
       setPhysicalDeck(deck);
     } else {
-      console.error("Couldn’t get a Physical Deck");
+      console.error("Couldn't get a Physical Deck");
     }
   }, []);
 
@@ -65,7 +66,7 @@ export const useDeck = (
     if (deck) {
       setVirtualDeck(deck);
     } else {
-      console.error("Couldn’t get a Virtual Deck");
+      console.error("Couldn't get a Virtual Deck");
     }
   }, []);
 
@@ -98,9 +99,17 @@ export const useDeck = (
     if (physicalDeck) {
       physicalDeck.on("down", onMouseDown);
       physicalDeck.on("up", onMouseUp);
-      physicalDeck.drawKeys((key) =>
-        drawKey(physicalDeck, key, profiles.profile, plugins)
-      );
+      physicalDeck.drawKeys((key) => {
+        const context = getContext(
+          key,
+          physicalDeck,
+          profiles,
+          plugins
+        ).getData();
+        physicalDeck?.fillKeyBuffer(key, Buffer.from(context.data), {
+          format: "rgba",
+        });
+      });
     }
 
     return () => {

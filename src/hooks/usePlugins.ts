@@ -12,7 +12,7 @@ const MODULE_CATCHE = new Map<string, Module>();
 
 export const usePlugins = () => {
   const [plugins, setPlugins] = useStorage<Plugin[]>(STORAGE_KEY_PLUGINS);
-  const [manifest, setManifest] = useStorage<Record<string, ModuleManifest>>(
+  const [manifests, setManifests] = useStorage<Record<string, ModuleManifest>>(
     STORAGE_KEY_CONFIG,
     {} as never[]
   );
@@ -75,7 +75,7 @@ export const usePlugins = () => {
       setStatus(modules);
       setInitalised(true);
 
-      setManifest(
+      setManifests(
         Object.keys(modules).reduce(
           (prev, key) => ({
             ...prev,
@@ -92,7 +92,7 @@ export const usePlugins = () => {
     plugins,
     pluginsById,
     status,
-    manifest,
+    manifests,
     setPlugins,
     addPlugin,
     promptAddPlugin,

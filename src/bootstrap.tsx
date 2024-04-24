@@ -19,7 +19,6 @@ export const Container = () => {
   const profiles = useProfiles();
   const plugins = usePlugins();
   const deck = useDeck(profiles, plugins);
-
   return (
     <AppContext.Provider value={{ deck, profiles, plugins }}>
       {window.location.search.includes("debug") && (

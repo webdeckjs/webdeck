@@ -13,8 +13,8 @@ export const drawKey = (
   const status = plugins.status[profile.keys[key]?.plugin];
   const plugin = profile.keys[key]?.plugin?.replaceAll("-", "_");
   const icon =
-    plugins.manifest[plugin]?.icons?.[profile.keys[key]?.icon]?.icon ||
-    plugins.manifest[plugin]?.icons?.["default"]?.icon;
+    plugins.manifests[plugin]?.icons?.[profile.keys[key]?.icon]?.icon ||
+    plugins.manifests[plugin]?.icons?.["default"]?.icon;
 
   const canvas = document.createElement("canvas");
   canvas.width = deck?.ICON_SIZE || 0;

@@ -32,7 +32,7 @@ export const Debugger: FC = () => {
         </pre>
         <span>Manifest:</span>
         <pre style={{ width: 350, textAlign: "left", background: "black" }}>
-          {JSON.stringify(plugins.manifest, null, 4)}
+          {JSON.stringify(plugins.manifests, null, 4)}
         </pre>
       </div>
     </div>

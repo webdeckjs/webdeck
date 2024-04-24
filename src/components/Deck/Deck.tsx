@@ -10,10 +10,11 @@ import {
 } from "./Deck.styles";
 import { useAppContext } from "../../contexts/AppContext";
 import { DeckFooterText } from "./DeckFooterText/DeckFooterText";
-import { DeckButtonView } from "./DeckButtonView/DeckButtonView";
+import { useDrawKey } from "../../hooks/useDrawKey";
 
 export const Deck: FC = () => {
   const { deck } = useAppContext();
+  const { getContext } = useDrawKey();
 
   return (
     <div style={{ display: "flex", flexDirection: "column" }}>
@@ -51,7 +52,7 @@ export const Deck: FC = () => {
                 })}
               >
                 <DeckButtonContent>
-                  <DeckButtonView keyIndex={keyIndex} />
+                  <img src={getContext(keyIndex).getSrc()} />
                 </DeckButtonContent>
               </DeckButton>
             )

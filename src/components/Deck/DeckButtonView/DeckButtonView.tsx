@@ -10,11 +10,11 @@ export const DeckButtonView = ({ keyIndex }: { keyIndex: number }) => {
   const ref = useRef<SVGSVGElement>(null);
   const plugin = profile.keys[keyIndex]?.plugin?.replaceAll("-", "_");
   const icon =
-    plugins.manifest[plugin]?.icons?.[profile.keys[keyIndex]?.icon]?.icon ||
-    plugins.manifest[plugin]?.icons?.["default"]?.icon;
+    plugins.manifests[plugin]?.icons?.[profile.keys[keyIndex]?.icon]?.icon ||
+    plugins.manifests[plugin]?.icons?.["default"]?.icon;
   const title = profile.keys[keyIndex]?.title;
   const loading = profile.keys[keyIndex]?.loading;
-  const status = plugins.status[plugin];
+  const status = plugins?.status[plugin];
 
   // fix height of svgs
   useEffect(() => {

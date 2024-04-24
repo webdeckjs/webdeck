@@ -3,6 +3,7 @@ export type VirtualDeck = {
   NUM_KEYS: number;
   KEY_COLUMNS: number;
   KEY_ROWS: number;
+  ICON_SIZE: number;
   close(): void;
 };
 
@@ -18,6 +19,7 @@ const config: Record<string, VirtualDeck> = {
     NUM_KEYS: 6,
     KEY_COLUMNS: 3,
     KEY_ROWS: 2,
+    ICON_SIZE: 72,
     close,
   },
 };
