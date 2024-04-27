@@ -66,7 +66,7 @@ export const Plugin: FC = () => {
               background: "#f7a5a5",
             }}
           >
-            Failed to load {keyConfig.plugin} plugin!
+            Failed to load {keyConfig?.plugin} plugin!
           </div>
         ) : (
           <div></div>
