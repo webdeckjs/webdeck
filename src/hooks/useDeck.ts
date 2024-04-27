@@ -91,8 +91,6 @@ export const useDeck = (
       });
     }
 
-    console.log("doc", document.getElementById(`keyid-${keyIndex}`));
-
     document
       .getElementById(`keyid-${keyIndex}`)
       ?.setAttribute("src", canvas.toDataURL());
@@ -190,7 +188,7 @@ export const useDeck = (
         const module = plugins.modules?.[keyConf?.plugin]?.module;
         const props = {
           drawKey: (callback) => drawKey(parseInt(key), callback),
-          config: keyConf,
+          config: keyConf?.config,
         };
 
         if (initKeyConf) {
