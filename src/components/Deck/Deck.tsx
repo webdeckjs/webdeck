@@ -11,6 +11,7 @@ import {
 import { useAppContext } from "../../contexts/AppContext";
 import { DeckFooterText } from "./DeckFooterText/DeckFooterText";
 import { useDrawKey } from "../../hooks/useDrawKey";
+import { DeckButtonView } from "./DeckButtonView/DeckButtonView";
 
 export const Deck: FC = () => {
   const { deck } = useAppContext();
@@ -52,7 +53,7 @@ export const Deck: FC = () => {
                 })}
               >
                 <DeckButtonContent>
-                  <img src={getContext(keyIndex).getSrc()} />
+                  <DeckButtonView getContext={getContext} keyIndex={keyIndex} />
                 </DeckButtonContent>
               </DeckButton>
             )

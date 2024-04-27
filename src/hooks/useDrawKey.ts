@@ -11,10 +11,7 @@ export const useDrawKey = () => {
     _plugins = plugins
   ) => {
     const config = _profiles.profile.keys[keyIndex];
-    const plugin = _profiles.profile.keys[keyIndex]?.plugin?.replaceAll(
-      "-",
-      "_"
-    );
+    const plugin = _profiles.profile.keys[keyIndex]?.plugin;
     const icon =
       _plugins.manifests[plugin]?.icons?.[
         _profiles.profile.keys[keyIndex]?.icon
@@ -22,7 +19,7 @@ export const useDrawKey = () => {
 
     const width = _deck?.ICON_SIZE || 72;
     const height = _deck?.ICON_SIZE || 72;
-    const status = plugins?.status[plugin];
+    const module = plugins?.modules[plugin];
 
     const context = getKeyImage({
       width,
@@ -30,7 +27,7 @@ export const useDrawKey = () => {
       key: keyIndex,
       config,
       icon,
-      status,
+      module,
     });
 
     return {

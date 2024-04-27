@@ -58,16 +58,25 @@ export const useProfiles = () => {
   };
 
   const setPlugin = (name: string, keyIndex: number) => {
+    const config = profile.keys[keyIndex]?.config;
+    if (config && Object.values(config).length > 0) {
+      const resp = confirm(
+        "You have previus configured a plugin in this slot, this action will replace and remove that config. This action is not reversable. Are you sure?"
+      );
+      if (resp === false) return false;
+    }
     updateProfile({
       keys: {
         ...profile.keys,
-        [keyIndex]: {
-          plugin: name,
-          config: {}, //reset config for next
-          icon: "",
-          title: "",
-          loading: false,
-        },
+        [keyIndex]: name
+          ? {
+              plugin: name,
+              config: {}, //reset config for next
+              icon: "",
+              title: "",
+              loading: false,
+            }
+          : undefined,
       },
     });
   };
@@ -80,13 +89,7 @@ export const useProfiles = () => {
           const match = name === config.plugin;
           return {
             ...prev,
-            [key]: {
-              plugin: match ? "" : config.plugin,
-              config: match ? {} : config.config,
-              icon: match ? "" : config.icon,
-              title: match ? "" : config.title,
-              loading: match ? false : config.loading,
-            },
+            [key]: match ? undefined : config,
           };
         }, {}),
       },

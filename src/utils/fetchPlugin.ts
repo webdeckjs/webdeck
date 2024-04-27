@@ -18,6 +18,7 @@ export const fetchPlugin = async (input: string): Promise<Plugin | null> => {
           const [creator, name] = data.full_name.split("/");
           resolve({
             name: name as string,
+            enum: name.replaceAll("-", "_"),
             creator,
             versions: ["1.0.0"],
             url: homepage,
@@ -31,6 +32,7 @@ export const fetchPlugin = async (input: string): Promise<Plugin | null> => {
         if (name) {
           resolve({
             name: name as string,
+            enum: (name as string)?.replaceAll("-", "_"),
             creator: creator as string,
             versions: [v as string],
             url: _url.replace("remoteEntry.js", ""),

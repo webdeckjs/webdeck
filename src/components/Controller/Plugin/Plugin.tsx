@@ -15,13 +15,13 @@ export const Plugin: FC = () => {
 
   const key = deck.selectedKey!;
   const keyConfig = profiles.profile.keys[key];
-  const module = plugins.getModule(keyConfig?.plugin);
-  const status = plugins.status[keyConfig?.plugin];
+  const module = plugins.modules[keyConfig?.plugin];
+  const loaded = module?.loaded;
 
   useEffect(() => {
-    if (module) {
+    if (module?.module) {
       const Component = lazy(() => {
-        return Promise.resolve(module);
+        return Promise.resolve(module.module!);
       });
       setPlugin(Component);
     } else {
@@ -53,7 +53,7 @@ export const Plugin: FC = () => {
               profiles.setConfig(key, config);
             }}
           />
-        ) : status?.loaded === false ? (
+        ) : loaded === false ? (
           <div
             style={{
               display: "flex",

@@ -4,6 +4,7 @@ import { useAppContext } from "../../../contexts/AppContext";
 export const Plugins: FC = () => {
   const { profiles, deck, plugins } = useAppContext();
   const selectedPlugin = profiles.profile.keys[deck.selectedKey!]?.plugin;
+
   return (
     <div>
       <select
@@ -11,12 +12,14 @@ export const Plugins: FC = () => {
         id="plugins"
         title="select plugin"
         value={selectedPlugin || ""}
-        onChange={(e) => profiles.setPlugin(e.target.value, deck.selectedKey!)}
+        onChange={(e) => {
+          profiles.setPlugin(e.target.value, deck.selectedKey!);
+        }}
       >
         <option value="">select...</option>
         {plugins.plugins.map((plugin) => {
           return (
-            <option key={plugin.name} value={plugin.name}>
+            <option key={plugin.name} value={plugin.enum || plugin.name}>
               {plugin.name} {plugin.creator && `@${plugin.creator}`}
             </option>
           );

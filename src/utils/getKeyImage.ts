@@ -6,8 +6,8 @@ type KeyImageType = {
   height: number;
   key: number;
   config: Key;
-  icon: string;
-  status: ModulesResolution[0];
+  icon?: string;
+  module: ModulesResolution[0];
 };
 
 export const getKeyImage = ({
@@ -15,7 +15,7 @@ export const getKeyImage = ({
   height,
   config,
   icon,
-  status,
+  module,
 }: KeyImageType) => {
   const canvas = document.createElement("canvas");
   canvas.width = width;
@@ -28,9 +28,9 @@ export const getKeyImage = ({
     // print status first
     ctx.beginPath();
     ctx.lineWidth = 2;
-    if (status?.loaded) {
+    if (module?.loaded) {
       ctx.strokeStyle = ctx.fillStyle = "#04df04";
-    } else if (status?.loaded === false) {
+    } else if (module?.loaded === false) {
       ctx.strokeStyle = ctx.fillStyle = "#FF0000";
     } else {
       ctx.strokeStyle = ctx.fillStyle = "gray";

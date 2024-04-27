@@ -8,7 +8,9 @@ type ModuleIcon = {
 };
 
 export type ModuleManifest = {
-  icons: Record<string, ModuleIcon>;
+  icons?: Record<string, ModuleIcon>;
+  version?: string;
+  bespoke?: boolean;
 };
 
 type ModuleOnPress = {
@@ -20,6 +22,6 @@ type ModuleOnPress = {
 export type Module = {
   default: FC;
   manifest?: ModuleManifest;
-  init?: () => void;
+  init?: (args) => () => void | void;
   onPress?: (params: ModuleOnPress) => void;
 };

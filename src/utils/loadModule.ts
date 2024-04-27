@@ -7,6 +7,8 @@ export type ModuleResolver = {
   module: Module | undefined;
 };
 
+const TIMEOUT_TIME = 5000;
+
 export const loadModule = async (
   name: string,
   scope: string,
@@ -18,13 +20,21 @@ export const loadModule = async (
       const module = cache.get(moduleKey);
       resolve({ name, scope, module });
     } else {
-      loadRemote(`${name.replaceAll("-", "_")}/${scope.slice(2)}`)
+      // loadRemote seems to never resolve if there an issues with its name.
+      // so best to timeout after 10 seconds to prevent issues with others.
+      const timeout = setTimeout(() => {
+        resolve({ name, scope, module: undefined });
+      }, TIMEOUT_TIME);
+
+      loadRemote(`${name}/${scope.slice(2)}`)
         .then((module) => {
           cache.set(moduleKey, module as Module);
           resolve({ name, scope, module: module as Module });
+          clearTimeout(timeout);
         })
         .catch(() => {
           resolve({ name, scope, module: undefined });
+          clearTimeout(timeout);
         });
     }
   });

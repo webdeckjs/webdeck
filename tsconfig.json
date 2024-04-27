@@ -27,6 +27,6 @@
     "node_modules",
     "./node_modules",
     "./node_modules/*",
-    "rspack.config.js"
+    "./rspack.config.js"
   ]
 }

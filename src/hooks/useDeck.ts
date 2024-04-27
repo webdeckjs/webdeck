@@ -1,4 +1,11 @@
-import { useCallback, useEffect, useState } from "react";
+import {
+  useCallback,
+  useEffect,
+  useLayoutEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import {
   VirtualDeck,
   getVirtualDeck,
@@ -13,6 +20,8 @@ import {
 } from "../utils/physicalDeck";
 import { useDrawKey } from "./useDrawKey";
 
+type Initer = Record<string, { plugin: string; destructor: Function }>;
+
 export const useDeck = (
   profiles: ReturnType<typeof useProfiles>,
   plugins: ReturnType<typeof usePlugins>
@@ -21,7 +30,9 @@ export const useDeck = (
   const [selectedKey, setSelectedKey] = useState<number | undefined>(0);
   const [virtualDeck, setVirtualDeck] = useState<VirtualDeck | undefined>();
   const [physicalDeck, setPhysicalDeck] = useState<PhysicalDeck | undefined>();
+  const [inited, setInited] = useState<Initer>({});
   const { getContext } = useDrawKey();
+
   const current = physicalDeck || virtualDeck;
 
   const onMouseDown = (keyIndex: number) => {
@@ -36,7 +47,7 @@ export const useDeck = (
   const onMouseUp = (keyIndex: number) => {
     const key = profiles.profile.keys[keyIndex];
     if (key?.plugin) {
-      const module = plugins.getModule(key.plugin);
+      const module = plugins.modules[key.plugin]?.module;
       try {
         module!.onPress!({
           ...key,
@@ -50,6 +61,41 @@ export const useDeck = (
         );
       }
     }
+  };
+
+  const drawKey = (
+    keyIndex: number,
+    callback: ({
+      canvas,
+      ctx,
+    }: {
+      canvas: HTMLCanvasElement;
+      ctx: CanvasRenderingContext2D;
+    }) => void
+  ) => {
+    const canvas = document.createElement("canvas");
+    canvas.width = current?.ICON_SIZE || 72;
+    canvas.height = current?.ICON_SIZE || 72;
+    const ctx = canvas.getContext("2d")!;
+    ctx.save();
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    callback({ canvas, ctx });
+
+    if (physicalDeck) {
+      const data = ctx.getImageData(0, 0, canvas.width, canvas.height, {
+        colorSpace: "srgb",
+      }).data;
+      physicalDeck?.fillKeyBuffer(keyIndex, Buffer.from(data), {
+        format: "rgba",
+      });
+    }
+
+    console.log("doc", document.getElementById(`keyid-${keyIndex}`));
+
+    document
+      .getElementById(`keyid-${keyIndex}`)
+      ?.setAttribute("src", canvas.toDataURL());
   };
 
   const tryGetPhysicalDeck = useCallback(async () => {
@@ -95,20 +141,35 @@ export const useDeck = (
     execute();
   }, []);
 
+  // @needs optimisations
   useEffect(() => {
     if (physicalDeck) {
       physicalDeck.on("down", onMouseDown);
       physicalDeck.on("up", onMouseUp);
-      physicalDeck.drawKeys((key) => {
-        const context = getContext(
-          key,
-          physicalDeck,
-          profiles,
-          plugins
-        ).getData();
-        physicalDeck?.fillKeyBuffer(key, Buffer.from(context.data), {
-          format: "rgba",
-        });
+      // draw keys once to get updated
+
+      physicalDeck?.drawKeys((key) => {
+        // console.log(
+        //   "plugins.manifests[profiles.profile.keys[key]?.plugin]",
+        //   plugins.manifests[profiles.profile.keys[key]?.plugin]
+        // );
+        if (
+          plugins.manifests[profiles.profile.keys[key]?.plugin]?.bespoke ===
+          true
+        ) {
+          // bespoke item
+          console.log("bespoke");
+        } else {
+          const context = getContext(
+            key,
+            physicalDeck,
+            profiles,
+            plugins
+          ).getData();
+          physicalDeck?.fillKeyBuffer(key, Buffer.from(context.data), {
+            format: "rgba",
+          });
+        }
       });
     }
 
@@ -116,15 +177,63 @@ export const useDeck = (
       physicalDeck?.off("down", onMouseDown);
       physicalDeck?.off("up", onMouseUp);
     };
-  }, [physicalDeck, virtualDeck, profiles.profile.keys]);
+  }, [plugins.initalised, plugins, profiles]);
+
+  // @needs optimisations
+  useEffect(() => {
+    if (plugins.initalised) {
+      const nextInited = {} as Initer;
+      Object.keys(profiles.profile.keys).map((key) => {
+        const keyConf = profiles.profile.keys[key];
+        const initKeyConf = inited[key];
+        const NOD = () => console.log("@destructor", keyConf, key);
+        const module = plugins.modules?.[keyConf?.plugin]?.module;
+        const props = {
+          drawKey: (callback) => drawKey(parseInt(key), callback),
+        };
+
+        if (initKeyConf) {
+          // theres something here already
+          if (initKeyConf.plugin === keyConf?.plugin) {
+            // plugin has not changed
+            nextInited[key] = initKeyConf;
+          } else {
+            // plugin has changed, destruct and reinitalised new code
+            initKeyConf.destructor?.();
+            if (keyConf) {
+              nextInited[key] = {
+                plugin: keyConf.plugin,
+                destructor: module?.init?.(props) || NOD,
+              };
+            }
+          }
+        } else {
+          // no prev initaliation, if we have a value we should initalised
+          if (keyConf) {
+            nextInited[key] = {
+              plugin: keyConf.plugin,
+              destructor: module?.init?.(props) || NOD,
+            };
+          }
+        }
+      });
+
+      console.log({ nextInited });
+
+      setInited(nextInited);
+    }
+  }, [plugins.initalised, profiles.profile.keys]);
 
   return {
     isVirtual: !!virtualDeck,
     isPhysical: !!physicalDeck,
     initalised: !!current,
+    physicalDeck,
+    virtualDeck,
     current,
     selectedKey,
     editMode,
+    inited,
 
     onMouseDown,
     onMouseUp,

@@ -17,7 +17,7 @@ export const usePlugins = () => {
     {} as never[]
   );
   const [initalised, setInitalised] = useState(false);
-  const [status, setStatus] = useState<ModulesResolution>({});
+  const [modules, setModules] = useState<ModulesResolution>({});
   const pluginsById = plugins.reduce(
     (prev, current) => ({ ...prev, [current.name]: current }),
     {} as Record<string, Plugin>
@@ -42,39 +42,38 @@ export const usePlugins = () => {
       "Are you sure you want to remove this plugin and everywhere where it was used? This action is not reversable."
     );
     if (resp) {
-      setPlugins(plugins.filter((plugin) => plugin.name !== name));
+      setPlugins(plugins.filter((plugin) => plugin.enum !== name));
       callback();
     }
   };
 
-  const getModule = (name: string) => {
-    const moduleKey = `${PLUGIN_SCOPE}-${name?.replaceAll("-", "_")}`;
-    return MODULE_CATCHE.get(moduleKey);
-  };
+  // const getModule = (name: string) => {
+  //   const moduleKey = `${PLUGIN_SCOPE}-${name}`;
+  //   return MODULE_CATCHE.get(moduleKey);
+  // };
 
-  const getModules = () => {
-    return MODULE_CATCHE;
-  };
+  // const getModules = () => {
+  //   return MODULE_CATCHE;
+  // };
 
   // initalise plugins
   useEffect(() => {
+    console.log("non changed right?");
     setInitalised(false);
     // module federation config
     const config = {
       name: "webdeck",
       remotes: plugins.map((plugin) => {
         return {
-          name: plugin.name.replaceAll("-", "_"),
+          name: plugin.enum,
           entry: `${plugin.url}remoteEntry.js`,
         };
       }),
     };
     // configure all plugins
     initalise(config, PLUGIN_SCOPE, MODULE_CATCHE).then((modules) => {
-      console.log("modules", modules);
-      setStatus(modules);
+      setModules(modules);
       setInitalised(true);
-
       setManifests(
         Object.keys(modules).reduce(
           (prev, key) => ({
@@ -91,13 +90,11 @@ export const usePlugins = () => {
     initalised,
     plugins,
     pluginsById,
-    status,
+    modules,
     manifests,
     setPlugins,
     addPlugin,
     promptAddPlugin,
     promptRemovePlugin,
-    getModule,
-    getModules,
   };
 };

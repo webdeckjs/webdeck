@@ -1,35 +1,41 @@
-const { HtmlRspackPlugin, container: {ModuleFederationPlugin} } = require('@rspack/core');
-const path = require('path');
+/* eslint-disable no-undef */
+/* eslint-disable @typescript-eslint/no-var-requires */
+const {
+  HtmlRspackPlugin,
+  container: { ModuleFederationPlugin },
+} = require("@rspack/core");
+const path = require("path");
+const rspack = require("@rspack/core");
 
 module.exports = {
-  entry: './src/index.tsx',
-  mode: 'development',
-  target: 'web',
+  entry: "./src/index.tsx",
+  mode: "development",
+  target: "web",
   devServer: {
     static: {
-      directory: path.join(__dirname, 'dist'),
+      directory: path.join(__dirname, "dist"),
     },
     port: 3001,
   },
   output: {
-    publicPath: 'auto',
+    publicPath: "auto",
   },
   module: {
     rules: [
       {
         test: /\.(js|ts)x?$/,
-        include: path.resolve(__dirname, 'src'),
+        include: path.resolve(__dirname, "src"),
         use: {
-          loader: 'builtin:swc-loader',
+          loader: "builtin:swc-loader",
           options: {
             jsc: {
               parser: {
-                syntax: 'typescript',
+                syntax: "typescript",
                 jsx: true,
               },
               transform: {
                 react: {
-                  runtime: 'automatic',
+                  runtime: "automatic",
                 },
               },
             },
@@ -39,38 +45,50 @@ module.exports = {
       {
         test: /\.svg$/i,
         issuer: /\.[jt]sx?$/,
-        use: ['@svgr/webpack'],
+        use: ["@svgr/webpack"],
       },
     ],
   },
   plugins: [
     new ModuleFederationPlugin({
-      name: 'webdeck',
+      name: "webdeck",
       // adds react as shared module
       // version is inferred from package.json
       // there is no version check for the required version
       // so it will always use the higher version found
       shared: {
         react: {
-          import: 'react', // the "react" package will be used a provided and fallback module
-          shareKey: 'react', // under this name the shared module will be placed in the share scope
-          shareScope: 'default', // share scope with this name will be used
+          import: "react", // the "react" package will be used a provided and fallback module
+          shareKey: "react", // under this name the shared module will be placed in the share scope
+          shareScope: "default", // share scope with this name will be used
           singleton: true, // only a single version of the shared module is allowed
         },
-        'react-dom': {
+        "react-dom": {
           singleton: true, // only a single version of the shared module is allowed
         },
       },
     }),
+    new rspack.CopyRspackPlugin({
+      patterns: [
+        {
+          from: "public",
+          globOptions: {
+            ignore: ["**/template.html"],
+          },
+        },
+      ],
+    }),
     new HtmlRspackPlugin({
-      template: './public/index.html',
+      template: "./public/template.html",
     }),
   ],
   // it will be fixed soon...
-  resolve:{
-    extensions: ['.tsx', '.ts', '.jsx', '.js', '.json'],
-    alias:{
-      '@module-federation/runtime$': require.resolve('@module-federation/runtime'),
-    }
-  }
+  resolve: {
+    extensions: [".tsx", ".ts", ".jsx", ".js", ".json"],
+    alias: {
+      "@module-federation/runtime$": require.resolve(
+        "@module-federation/runtime"
+      ),
+    },
+  },
 };
