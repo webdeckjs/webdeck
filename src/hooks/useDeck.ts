@@ -190,6 +190,7 @@ export const useDeck = (
         const module = plugins.modules?.[keyConf?.plugin]?.module;
         const props = {
           drawKey: (callback) => drawKey(parseInt(key), callback),
+          config: keyConf,
         };
 
         if (initKeyConf) {
