@@ -160,8 +160,8 @@ export const useProfiles = () => {
     updateProfile(next);
   };
 
-  const getConfig = async (key: number) => {
-    const _profiles = (await getProfiles()) as Profiles;
+  const getConfig = (key: number) => {
+    const _profiles = getProfiles() as Profiles;
     return _profiles[profileName].keys[key].config;
   };
 
