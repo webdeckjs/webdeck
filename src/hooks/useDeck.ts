@@ -174,7 +174,7 @@ export const useDeck = (
         const props = {
           drawKey: (callback: DrawKey) => drawKey(parseInt(key), callback),
           config: keyConf?.config,
-          getConfig: profiles.getConfig(parseInt(key)),
+          getConfig: () => profiles.getConfig(parseInt(key)),
         };
 
         if (initKeyConf) {

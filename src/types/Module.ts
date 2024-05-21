@@ -31,7 +31,7 @@ type ModuleOnPress = {
 type ModuleInit = {
   drawKey: (callback: DrawKey) => void;
   config: Config;
-  getConfig: Promise<Config>;
+  getConfig: () => Config;
 };
 
 export type Module = {
