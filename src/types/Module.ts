@@ -1,4 +1,5 @@
 import { FC } from "react";
+import { Config } from "../hooks/useProfiles";
 
 type ModuleIcon = {
   icon: string;
@@ -13,15 +14,29 @@ export type ModuleManifest = {
   bespoke?: boolean;
 };
 
+export type DrawKey = ({
+  canvas,
+  ctx,
+}: {
+  canvas: HTMLCanvasElement;
+  ctx: CanvasRenderingContext2D;
+}) => void;
+
 type ModuleOnPress = {
   config: Record<string | number, unknown>;
   keyIndex: number;
   setIcon: unknown;
 };
 
+type ModuleInit = {
+  drawKey: (callback: DrawKey) => void;
+  config: Config;
+  getConfig: Promise<Config>;
+};
+
 export type Module = {
   default: FC;
   manifest?: ModuleManifest;
-  init?: (args) => () => void | void;
+  init?: (args: ModuleInit) => () => void | void;
   onPress?: (params: ModuleOnPress) => void;
 };

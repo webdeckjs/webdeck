@@ -160,6 +160,11 @@ export const useProfiles = () => {
     updateProfile(next);
   };
 
+  const getConfig = async (key: number) => {
+    const _profiles = (await getProfiles()) as Profiles;
+    return _profiles[profileName].keys[key].config;
+  };
+
   const setIcon = (key: number, icon: string) => {
     const next = {
       ...profile,
@@ -216,6 +221,7 @@ export const useProfiles = () => {
     promptRemoveProfile,
     promptExportProfile,
     setConfig,
+    getConfig,
     setIcon,
     setTitle,
     setLoading,

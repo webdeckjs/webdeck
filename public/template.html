@@ -23,6 +23,26 @@
         overflow: hidden;
       }
 
+      /* .setting is @depreaced */
+      .webdeck-setting, 
+      .setting {
+        display: flex;
+        justify-content: space-between;
+      }
+
+      .webdeck-plugin {
+        padding: 2em;
+        background-color: gray;
+        color: white,
+      }
+      
+      .webdeck-title {
+        padding-top: 0;
+        margin-top: 0;
+      }
+
+      /* bellow is depreceated items */
+
       h3.pt {
         padding-top: 0;
         margin-top: 0;
@@ -48,12 +68,6 @@
         background: black;
       }
 
-      /* input[type=submit], select, input[type=button], button {
-        box-sizing: border-box;
-        -moz-box-sizing: border-box;
-        -webkit-box-sizing: border-box;
-      } */
-
       .s {
         vertical-align:top;
         height:26px;
@@ -66,6 +80,7 @@
         color: white;
         transition: all 300ms;
       }
+
       .s:hover {
         background: gray;
         cursor: "finger",
@@ -89,6 +104,7 @@
         height: 26px;
         background: black;
         color: white;
+        min-width: 105px;
       }
 
       input {
@@ -117,15 +133,6 @@
         padding: 15px;
       }
       
-      .setting {
-        display: flex;
-        justify-content: space-between;
-      }
-
-      select {
-        min-width: 105px;
-      }
-
     </style>
   </head>
   <body>

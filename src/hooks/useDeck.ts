@@ -1,11 +1,4 @@
-import {
-  useCallback,
-  useEffect,
-  useLayoutEffect,
-  useMemo,
-  useRef,
-  useState,
-} from "react";
+import { useCallback, useEffect, useState } from "react";
 import {
   VirtualDeck,
   getVirtualDeck,
@@ -19,8 +12,9 @@ import {
   requestPhysicalDeck,
 } from "../utils/physicalDeck";
 import { useDrawKey } from "./useDrawKey";
+import { DrawKey } from "../types/Module";
 
-type Initer = Record<string, { plugin: string; destructor: Function }>;
+type Initer = Record<string, { plugin: string; destructor: () => void }>;
 
 export const useDeck = (
   profiles: ReturnType<typeof useProfiles>,
@@ -63,16 +57,7 @@ export const useDeck = (
     }
   };
 
-  const drawKey = (
-    keyIndex: number,
-    callback: ({
-      canvas,
-      ctx,
-    }: {
-      canvas: HTMLCanvasElement;
-      ctx: CanvasRenderingContext2D;
-    }) => void
-  ) => {
+  const drawKey = (keyIndex: number, callback: DrawKey) => {
     const canvas = document.createElement("canvas");
     canvas.width = current?.ICON_SIZE || 72;
     canvas.height = current?.ICON_SIZE || 72;
@@ -187,8 +172,9 @@ export const useDeck = (
         const NOD = () => console.log("@destructor", keyConf, key);
         const module = plugins.modules?.[keyConf?.plugin]?.module;
         const props = {
-          drawKey: (callback) => drawKey(parseInt(key), callback),
+          drawKey: (callback: DrawKey) => drawKey(parseInt(key), callback),
           config: keyConf?.config,
+          getConfig: profiles.getConfig(parseInt(key)),
         };
 
         if (initKeyConf) {
