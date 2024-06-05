@@ -132,17 +132,10 @@ export const useDeck = (
       // draw keys once to get updated
 
       physicalDeck?.drawKeys((key) => {
-        // console.log(
-        //   "plugins.manifests[profiles.profile.keys[key]?.plugin]",
-        //   plugins.manifests[profiles.profile.keys[key]?.plugin]
-        // );
         if (
-          plugins.manifests[profiles.profile.keys[key]?.plugin]?.bespoke ===
+          plugins.manifests[profiles.profile.keys[key]?.plugin]?.bespoke !==
           true
         ) {
-          // bespoke item
-          console.log("bespoke");
-        } else {
           const context = getContext(
             key,
             physicalDeck,
@@ -202,8 +195,6 @@ export const useDeck = (
           }
         }
       });
-
-      console.log({ nextInited });
 
       setInited(nextInited);
     }

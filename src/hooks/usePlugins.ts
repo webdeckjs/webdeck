@@ -58,7 +58,6 @@ export const usePlugins = () => {
 
   // initalise plugins
   useEffect(() => {
-    console.log("non changed right?");
     setInitalised(false);
     // module federation config
     const config = {
