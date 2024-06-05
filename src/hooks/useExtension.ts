@@ -7,7 +7,7 @@ export const useExtension = () => {
   const [data, setData] = useState({});
 
   const getExtenison = () => {
-    if (chrome?.runtime?.sendMessage) {
+    if (window.chrome?.runtime) {
       chrome.runtime.sendMessage(
         EXTENSION_ID,
         { type: "health" },
@@ -35,8 +35,8 @@ export const useExtension = () => {
     } = { method: "get" }
   ) => {
     return new Promise((resolve) => {
-      if (chrome?.runtime?.sendMessage) {
-        chrome.runtime.sendMessage(
+      if (window.chrome?.runtime) {
+        chrome?.runtime?.sendMessage(
           EXTENSION_ID,
           { type: "fetch", method, url, body, ...options },
           (response) => resolve(response)
