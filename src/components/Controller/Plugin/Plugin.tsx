@@ -1,5 +1,6 @@
 import { FC, lazy, useEffect, useState, Suspense } from "react";
 import { useAppContext } from "../../../contexts/AppContext";
+import { EXTENSION_ID } from "../../../hooks/useExtension";
 
 type FederatedComponent = FC<{
   key: string;
@@ -10,12 +11,13 @@ type FederatedComponent = FC<{
 }>;
 
 export const Plugin: FC = () => {
-  const { plugins, profiles, deck } = useAppContext();
+  const { plugins, profiles, deck, extension } = useAppContext();
   const [Plugin, setPlugin] = useState<FederatedComponent | null>(null);
 
   const key = deck.selectedKey!;
   const keyConfig = profiles.profile.keys[key];
   const module = plugins.modules[keyConfig?.plugin];
+  const manifest = plugins.manifests?.[keyConfig?.plugin];
   const loaded = module?.loaded;
 
   useEffect(() => {
@@ -44,6 +46,27 @@ export const Plugin: FC = () => {
         overflow: "hidden",
       }}
     >
+      {manifest?.extension_required === true &&
+      extension.installed === false ? (
+        <div
+          style={{
+            marginBottom: 8,
+            padding: 8,
+            border: "1px solid black",
+            background: "orange",
+            borderRadius: 8,
+          }}
+        >
+          <span>This plugin required the </span>
+          <a
+            target="_blank"
+            rel="noopener noreferrer"
+            href={`https://chrome.google.com/webstore/detail/${EXTENSION_ID}`}
+          >
+            Webdeck Extension
+          </a>{" "}
+        </div>
+      ) : null}
       <Suspense fallback="Loading System">
         {Plugin && keyConfig?.config && module ? (
           <Plugin

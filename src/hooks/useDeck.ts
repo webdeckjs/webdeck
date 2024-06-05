@@ -13,12 +13,14 @@ import {
 } from "../utils/physicalDeck";
 import { useDrawKey } from "./useDrawKey";
 import { DrawKey } from "../types/Module";
+import { useExtension } from "./useExtension";
 
 type Initer = Record<string, { plugin: string; destructor: () => void }>;
 
 export const useDeck = (
   profiles: ReturnType<typeof useProfiles>,
-  plugins: ReturnType<typeof usePlugins>
+  plugins: ReturnType<typeof usePlugins>,
+  extension: ReturnType<typeof useExtension>
 ) => {
   const [editMode, setEditMode] = useState(true);
   const [selectedKey, setSelectedKey] = useState<number | undefined>(0);
@@ -47,6 +49,11 @@ export const useDeck = (
           ...key,
           keyIndex,
           setIcon: (icon: string) => profiles.setIcon(keyIndex, icon),
+          extension: {
+            fetch: extension.fetch,
+            data: extension.data,
+            installed: extension.installed,
+          },
         });
       } catch (e) {
         console.warn(

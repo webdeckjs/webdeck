@@ -12,6 +12,7 @@ export type ModuleManifest = {
   icons?: Record<string, ModuleIcon>;
   version?: string;
   bespoke?: boolean;
+  extension_required?: boolean;
 };
 
 export type DrawKey = ({
@@ -26,6 +27,7 @@ type ModuleOnPress = {
   config: Record<string | number, unknown>;
   keyIndex: number;
   setIcon: unknown;
+  extension: unknown;
 };
 
 type ModuleInit = {

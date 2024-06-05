@@ -8,19 +8,23 @@ import { AppContext } from "./contexts/AppContext";
 import { usePlugins } from "./hooks/usePlugins";
 import { useProfiles } from "./hooks/useProfiles";
 import { useDeck } from "./hooks/useDeck";
+import { useExtension } from "./hooks/useExtension";
 
 export type AppContainerType = {
   deck: ReturnType<typeof useDeck>;
   profiles: ReturnType<typeof useProfiles>;
   plugins: ReturnType<typeof usePlugins>;
+  extension: ReturnType<typeof useExtension>;
 };
 
 export const Container = () => {
+  const extension = useExtension();
   const profiles = useProfiles();
   const plugins = usePlugins();
-  const deck = useDeck(profiles, plugins);
+  const deck = useDeck(profiles, plugins, extension);
+
   return (
-    <AppContext.Provider value={{ deck, profiles, plugins }}>
+    <AppContext.Provider value={{ deck, profiles, plugins, extension }}>
       {window.location.search.includes("debug") && (
         <>
           <div>version: {packageJSON.version}</div>
