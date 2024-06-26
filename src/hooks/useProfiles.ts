@@ -18,6 +18,8 @@ export type Profile = {
   keys: {
     [key: string]: Key;
   };
+  device?: string;
+  type?: string;
 };
 
 const STORAGE_KEY = "profiles";
