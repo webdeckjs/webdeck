@@ -9,6 +9,20 @@
     <meta name="theme-color" content="#282828" />
     <meta name="description" content="Configure you deck using only the web browser, install plugins, and explore custom configurations and presets and profiles." />
     <title>Webdeck Studio</title>
+    <script>
+
+      window.addEventListener("message", function(event) {
+      console.log('harrow', event);
+       // We only accept messages from ourselves
+       if (event.source != window)
+         return;
+
+        if (event.data.type && (event.data.type == "FROM_CONTENT")) {
+          console.log("Page script received: " + event.data.text)
+          console.log(event.data.text) // "Something message here"
+        }
+      }, false)
+    </script>
     <style>
       body, html {
         margin: 0;
