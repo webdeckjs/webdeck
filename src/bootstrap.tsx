@@ -38,6 +38,29 @@ export const Container = () => {
       )}
 
       <App />
+
+      {window.location.search.includes("debug") && (
+        <div style={{ position: "absolute", opacity: 0.5 }}>
+          <button
+            onClick={async () => {
+              const set = await extension.setData({
+                rand: Math.random() * 1000,
+              });
+              console.log({ set });
+            }}
+          >
+            set
+          </button>
+          <button
+            onClick={async () => {
+              const get = await extension.getData();
+              console.log({ get });
+            }}
+          >
+            get
+          </button>
+        </div>
+      )}
     </AppContext.Provider>
   );
 };

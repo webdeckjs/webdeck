@@ -51,7 +51,7 @@ export const useDeck = (
           setIcon: (icon: string) => profiles.setIcon(keyIndex, icon),
           extension: {
             fetch: extension.fetch,
-            data: extension.data,
+            data: extension.metadata,
             installed: extension.installed,
           },
         });
@@ -175,6 +175,11 @@ export const useDeck = (
           drawKey: (callback: DrawKey) => drawKey(parseInt(key), callback),
           config: keyConf?.config,
           getConfig: () => profiles.getConfig(parseInt(key)),
+          extension: {
+            fetch: extension.fetch,
+            data: extension.metadata,
+            installed: extension.installed,
+          },
         };
 
         if (initKeyConf) {
